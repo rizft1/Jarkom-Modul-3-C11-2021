@@ -137,11 +137,14 @@ Edit file /etc/dhcp/dhcpd.conf dengan menambahkan baris ini pada subnet 192.189.
         default-lease-time 360;
         max-lease-time 7200;
 ```
+![2-6 switch 1](https://user-images.githubusercontent.com/57831206/141648640-913df4d5-4c66-4ab6-a890-17c732fe62ba.JPG)
+
 dan menambahkan baris ini pada subnet 192.189.3.0
 ```
         default-lease-time 720;
         max-lease-time 7200;
 ```
+![2-6 switch 3](https://user-images.githubusercontent.com/57831206/141648642-c776c457-b011-4740-8204-f09665b9fa5a.JPG)
 
 ### Soal 7. 
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP [prefix IP].3.69
@@ -171,6 +174,7 @@ dan tambahkan konfigurasi berikut
 hwaddress ether d2:61:cf:ce:81:09
 ```
 restart Node melalui GNS3. Dan IP pada skypie akan berubah menjadi ```192.189.3.69```
+![7](https://user-images.githubusercontent.com/57831206/141648644-7965b1a0-09c2-42ff-bc1f-cca4143def85.JPG)
 
 ### Soal 8. 
 Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.yyy.com dengan port yang digunakan adalah 5000 jawab : <br>
@@ -214,11 +218,8 @@ cek proxy lakukan command
 env | grep -i jual
 ```
 
-Hasilnya adalah sebagai berikut : <br>
-(gambar)
-
-Setelah di hidupkan proxynya, akses jualbelikapal.C11.com di Loguetown
-<br> (gambar)
+Setelah di hidupkan proxynya, akses jualbelikapal.C11.com di Loguetown <br> 
+![8](https://user-images.githubusercontent.com/57831206/141648653-3648c786-b742-4ae9-9eee-5bcf0667149c.JPG)
 
 ### Soal 9. 
 Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapalyyy dengan password luffy_yyy dan zorobelikapalyyy dengan password zoro_yyy
@@ -259,8 +260,8 @@ acl time_done_6 time F 03:01-16:59
 acl time_done_7 time A 03:01-23:59
 ```
 
-Hasilnya adalah sebagai berikut : 
-<br> (gambar)
+Jika mengakses di luar jam yang ditentukan hasilnya adalah sebagai berikut : <br> 
+![10](https://user-images.githubusercontent.com/57831206/141648662-3827a820-4643-474d-8bba-fa24fd233693.JPG)
 
 Ubah juga config di squid.conf dengan konfigurasi seperti berikut :
 ```
