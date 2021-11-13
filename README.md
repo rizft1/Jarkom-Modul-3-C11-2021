@@ -172,62 +172,109 @@ hwaddress ether d2:61:cf:ce:81:09
 ```
 restart Node melalui GNS3. Dan IP pada skypie akan berubah menjadi ```192.189.3.69```
 
-### Soal 8.
+### Soal 8. 
+Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.yyy.com dengan port yang digunakan adalah 5000 jawab : <br>
 
-### Soal 9.
+Buatlah Domain jualbelikapal.C11.com pada EniesLobby menggunakan bind9
+Buat Config di Bind9 Enies Lobby
 
-### Soal 10.
+Config Domainnya adalah sebagai berikut dengan membuat file bernama jualbelikapal.C11.com :
 
-### Soal 11.
-Pada EniesLobby file `/etc/bind/named.conf.local`
-```
-zone "super.franky.C11.com" {
-        type master;
-        file "/etc/bind/kaizoku/super.franky.C11.com";
-        // allow-transfer { 192.189.3.69; };
-};
-```
-Selanjutnya menjalankan command `service bind9 restart`
+untuk named.conf.local kita ubah menjadi seperti berikut :
 
-Pada Skypie jalankan `bash command.sh`
-```
-apt-get install wget
-apt-get install unzip
-mkdir /var/www/super.franky.c11.com
-wget https://raw.githubusercontent.com/FeinardSlim/Praktikum-Modul-2-Jarkom/mainn
-/super.franky.zip
 
-unzip super.franky.zip
-mv super.franky/error /var/www/super.franky.c11.com
-mv super.franky/public /var/www/super.franky.c11.com
-cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/suu
-per.franky.c11.com.conf
-```
-Juga jalankan `bash script.sh`
-```
-echo '<VirtualHost *:80>
-                ServerAdmin webmaster@localhost
-        ServerName super.franky.C11.com
-        ServerAlias www.super.franky.C11.com
+Pada node Water7 lakukan 
 
-        DocumentRoot /var/www/super.franky.C11.com
-       <Directory /var/www/html>
-     Options +FollowSymLinks -Multiviews
-     AllowOverride All
-</Directory>
- ErrorLog ${APACHE_LOG_DIR}/error.log
- CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>' > /etc/apache2/sites-available/super.franky.C11.com.conf
 ```
-Kemudian buka `/etc/apache2/sites-available` dan jalankan `a2ensite super.franky.C11.com.conf` </br>
-Selanjutnya jalankan `service apache2 restart`
+nano /etc/squid/squid.conf
+```
 
-Ke Water7 kemudian menuju ke `/etc/squid/squid.conf` dan tambahkan 
+kemudian isikan konfigurasi berikut
+
 ```
-include /etc/squid/acl.conf
-include /etc/squid/acl-bandwith.conf
 http_port 5000
 visible_hostname jualbelikapal.C11.com
+http_access allow all
+```
+
+lalu simpan dan restart squid
+
+```
+service squid restart
+```
+
+Kemudian pada Loguetown, aktifkan Proxynya dengan
+
+```
+export http_proxy="http://jualbelikapal.C11.com:5000"
+```
+
+cek proxy lakukan command
+```
+env | grep -i jual
+```
+
+Hasilnya adalah sebagai berikut : <br>
+(gambar)
+
+Setelah di hidupkan proxynya, akses jualbelikapal.C11.com di Loguetown
+<br> (gambar)
+
+### Soal 9. 
+Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapalyyy dengan password luffy_yyy dan zorobelikapalyyy dengan password zoro_yyy
+
+Pada node Water7 dijalankan berikut
+
+Untuk membuat username serta password dilakukan perintah berikut :
+```
+htpasswd -m /etc/squid/passwd luffybelikapalC11
+htpasswd -m /etc/squid/passwd zorobelikapalC11
+```
+
+Setelah itu memasukkan ke config squidnya di squid.conf :
+    http_port 5000
+    visible_hostname jualbelikapal.C11.com
+    auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+    auth_param basic children 5
+    auth_param basic realm Login
+    auth_param basic credentialsttl 2 hours
+    auth_param basic casesensitive on
+    acl USERS proxy_auth REQUIRED
+    http_access allow USERS
+
+kemudian jalankan ```command service squid restart```
+
+
+### Soal 10. 
+Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00) Jawab : <br>
+
+Buat Config di file acl.conf di Water7
+```
+acl time_done_1 time S 00:00-23:59
+acl time_done_2 time MT 00:00-06:59
+acl time_done_3 time M 11:01-23:59
+acl time_done_4 time TWH 11:01-16:59
+acl time_done_5 time WH 03:01-06:59
+acl time_done_6 time F 03:01-16:59
+acl time_done_7 time A 03:01-23:59
+```
+
+Hasilnya adalah sebagai berikut : 
+<br> (gambar)
+
+Ubah juga config di squid.conf dengan konfigurasi seperti berikut :
+```
+include /etc/squid/acl.conf
+http_port 5000
+visible_hostname jualbelikapal.C11.com
+
+http_access deny time_done_1
+http_access deny time_done_2
+http_access deny time_done_3
+http_access deny time_done_4
+http_access deny time_done_5
+http_access deny time_done_6
+http_access deny time_done_7
 
 auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
 auth_param basic children 5
@@ -235,24 +282,5 @@ auth_param basic realm Proxy
 auth_param basic credentialsttl 2 hours
 auth_param basic casesensitive on
 acl USERS proxy_auth REQUIRED
-
-acl google dstdomain google.com
-http_access deny google
-deny_info http://super.franky.C11.com/ google
-
-#acl BLACKLIST dstdomain google.com
-#deny_info http://super.franky.c11.com/ BLACKLIST
-#http_reply_access deny BLACKLIST
-
-http_access allow USERS
-
-http_access deny all
 ```
-Juga tambahkan nameserver EniesLobby `nameserver 192.189.2.2` pada file `resolv.conf`
-
-Kemudian ke Loguetown dan ketik `lynx google.com` maka akan mengarahkan ke `super.franky.c11.com`
-![11](https://user-images.githubusercontent.com/57831206/141647813-a29a1d91-7be3-4847-8f1f-551c6c7dee15.JPG)
-
-### Soal 12.
-
-### Soal 13. 
+Kemudian jalankan command ```service squid restart```
