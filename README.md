@@ -137,6 +137,7 @@ Edit file /etc/dhcp/dhcpd.conf dengan menambahkan baris ini pada subnet 192.189.
         default-lease-time 360;
         max-lease-time 7200;
 ```
+2-6 Switch 1:
 ![2-6 switch 1](https://user-images.githubusercontent.com/57831206/141648640-913df4d5-4c66-4ab6-a890-17c732fe62ba.JPG)
 
 dan menambahkan baris ini pada subnet 192.189.3.0
@@ -144,6 +145,7 @@ dan menambahkan baris ini pada subnet 192.189.3.0
         default-lease-time 720;
         max-lease-time 7200;
 ```
+2-6 Switch 3:
 ![2-6 switch 3](https://user-images.githubusercontent.com/57831206/141648642-c776c457-b011-4740-8204-f09665b9fa5a.JPG)
 
 ### Soal 7. 
@@ -399,3 +401,7 @@ Masuk ke `bukanfrankytapirandom.99689` lalu enter
 Maka akan terlihat hasilnya dengan cepat seperti di bawah ini
 ![13](https://user-images.githubusercontent.com/57831206/141648476-21f3ecfb-f8e0-40ce-bac5-309f9253eb06.JPG)
 
+### Pembagian Tugas
+- 05111940000001 Christopher Baptista : Mengerjakan Revisi yang ada termasuk 11-13, Lapres 11-13
+- 05111940000093 Riki Mi’roj Achmad : Mengerjakan soal 1-10, melakukan demo, namun terkendala jaringan saat mengisi lapres
+- 05111940000219 M Rizqi Fiqih Thalib : Mengisi dan melengkapi lapres 1-10
