@@ -284,3 +284,117 @@ auth_param basic casesensitive on
 acl USERS proxy_auth REQUIRED
 ```
 Kemudian jalankan command ```service squid restart```
+
+### Soal 11.
+Pada EniesLobby file `/etc/bind/named.conf.local`
+```
+zone "super.franky.C11.com" {
+        type master;
+        file "/etc/bind/kaizoku/super.franky.C11.com";
+        // allow-transfer { 192.189.3.69; };
+};
+```
+Selanjutnya menjalankan command `service bind9 restart`
+
+Pada Skypie jalankan `bash command.sh`
+```
+apt-get install wget
+apt-get install unzip
+mkdir /var/www/super.franky.c11.com
+wget https://raw.githubusercontent.com/FeinardSlim/Praktikum-Modul-2-Jarkom/mainn
+/super.franky.zip
+
+unzip super.franky.zip
+mv super.franky/error /var/www/super.franky.c11.com
+mv super.franky/public /var/www/super.franky.c11.com
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/suu
+per.franky.c11.com.conf
+```
+Juga jalankan `bash script.sh`
+```
+echo '<VirtualHost *:80>
+                ServerAdmin webmaster@localhost
+        ServerName super.franky.C11.com
+        ServerAlias www.super.franky.C11.com
+
+        DocumentRoot /var/www/super.franky.C11.com
+       <Directory /var/www/html>
+     Options +FollowSymLinks -Multiviews
+     AllowOverride All
+</Directory>
+ ErrorLog ${APACHE_LOG_DIR}/error.log
+ CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/super.franky.C11.com.conf
+```
+Kemudian buka `/etc/apache2/sites-available` dan jalankan `a2ensite super.franky.C11.com.conf` </br>
+Selanjutnya jalankan `service apache2 restart`
+
+Ke Water7 kemudian menuju ke `/etc/squid/squid.conf` dan tambahkan 
+```
+include /etc/squid/acl.conf
+include /etc/squid/acl-bandwith.conf
+http_port 5000
+visible_hostname jualbelikapal.C11.com
+
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Proxy
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive on
+acl USERS proxy_auth REQUIRED
+
+acl google dstdomain google.com
+http_access deny google
+deny_info http://super.franky.C11.com/ google
+
+#acl BLACKLIST dstdomain google.com
+#deny_info http://super.franky.c11.com/ BLACKLIST
+#http_reply_access deny BLACKLIST
+
+http_access allow USERS
+
+http_access deny all
+```
+Juga tambahkan nameserver EniesLobby `nameserver 192.189.2.2` pada file `resolv.conf`
+
+Kemudian ke Loguetown dan ketik `lynx google.com` maka akan mengarahkan ke `super.franky.c11.com`
+![11](https://user-images.githubusercontent.com/57831206/141647813-a29a1d91-7be3-4847-8f1f-551c6c7dee15.JPG)
+
+### Soal 12.
+Masuk ke Water7 dan pada `/etc/squid/acl-bandwidth.conf` tambahkan
+```
+acl luffy url_regex -i \.png$
+    acl luffy url_regex -i \.jpg$
+
+delay_class 1 1
+delay_parameters 1 1250/1250
+delay_access 1 allow luffy
+delay_access 1 deny zoro
+delay_access 1 allow download
+delay_access 1 deny all
+```
+![12](https://user-images.githubusercontent.com/57831206/141648249-4658459f-cc03-4cc8-bebe-6643e974a8fe.JPG)
+
+Kembali ke Loguetown dan lakukan `lynx google.com` yang mengarah ke `super.franky.C11.com`. </br>
+Ketik username `luffybelikapalc11` dan passwordnya `luffy_c11`. </br>
+Selanjutnya lakukan download image, dan akan muncul kecepatan download data
+![12-2](https://user-images.githubusercontent.com/57831206/141648251-2a62872e-e518-49dc-a1b7-8a528e5d8cf4.JPG)
+
+### Soal 13.
+Masuk ke Water7 dan pada `/etc/squid/acl-bandwidth.conf` tambahkan
+```
+delay_class 2 1
+delay_parameters 2 -1/-1
+delay_access 2 allow zoro
+delay_access 2 deny luffy
+delay_access 2 deny all
+```
+
+Kembali lagi ke Loguetown dan lakukan `lynx google.com` yang mengarah ke `super.franky.C11.com`. </br>
+Ketik username `zorobelikapalc11` dan passwordnya `zoro_c11`. </br>
+Masuk ke `bukanfrankytapirandom.99689` lalu enter
+![13-1](https://user-images.githubusercontent.com/57831206/141648472-270c6d9e-9a07-4488-84cd-c0fa793c3859.JPG)
+
+Maka akan terlihat saat akses menjadi sangat cepat
+![13](https://user-images.githubusercontent.com/57831206/141648476-21f3ecfb-f8e0-40ce-bac5-309f9253eb06.JPG)
+
