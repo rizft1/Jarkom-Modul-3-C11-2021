@@ -222,7 +222,7 @@ echo '<VirtualHost *:80>
 Kemudian buka `/etc/apache2/sites-available` dan jalankan `a2ensite super.franky.C11.com.conf` </br>
 Selanjutnya jalankan `service apache2 restart`
 
-Ke Water7 dan tambahkan
+Ke Water7 kemudian menuju ke `/etc/squid/squid.conf` dan tambahkan 
 ```
 include /etc/squid/acl.conf
 include /etc/squid/acl-bandwith.conf
@@ -248,6 +248,7 @@ http_access allow USERS
 
 http_access deny all
 ```
+Juga tambahkan nameserver EniesLobby `nameserver 192.189.2.2` pada file `resolv.conf`
 
 Kemudian ke Loguetown dan ketik `lynx google.com` maka akan mengarahkan ke `super.franky.c11.com`
 ![11](https://user-images.githubusercontent.com/57831206/141647813-a29a1d91-7be3-4847-8f1f-551c6c7dee15.JPG)
