@@ -395,6 +395,6 @@ Ketik username `zorobelikapalc11` dan passwordnya `zoro_c11`. </br>
 Masuk ke `bukanfrankytapirandom.99689` lalu enter
 ![13-1](https://user-images.githubusercontent.com/57831206/141648472-270c6d9e-9a07-4488-84cd-c0fa793c3859.JPG)
 
-Maka akan hasilnya cepat seperti di bawah ini
+Maka akan terlihat hasilnya dengan cepat seperti di bawah ini
 ![13](https://user-images.githubusercontent.com/57831206/141648476-21f3ecfb-f8e0-40ce-bac5-309f9253eb06.JPG)
 
