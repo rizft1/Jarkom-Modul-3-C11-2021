@@ -171,3 +171,87 @@ dan tambahkan konfigurasi berikut
 hwaddress ether d2:61:cf:ce:81:09
 ```
 restart Node melalui GNS3. Dan IP pada skypie akan berubah menjadi ```192.189.3.69```
+
+### Soal 8.
+
+### Soal 9.
+
+### Soal 10.
+
+### Soal 11.
+Pada EniesLobby file `/etc/bind/named.conf.local`
+```
+zone "super.franky.C11.com" {
+        type master;
+        file "/etc/bind/kaizoku/super.franky.C11.com";
+        // allow-transfer { 192.189.3.69; };
+};
+```
+Selanjutnya menjalankan command `service bind9 restart`
+
+Pada Skypie jalankan `bash command.sh`
+```
+apt-get install wget
+apt-get install unzip
+mkdir /var/www/super.franky.c11.com
+wget https://raw.githubusercontent.com/FeinardSlim/Praktikum-Modul-2-Jarkom/mainn
+/super.franky.zip
+
+unzip super.franky.zip
+mv super.franky/error /var/www/super.franky.c11.com
+mv super.franky/public /var/www/super.franky.c11.com
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/suu
+per.franky.c11.com.conf
+```
+Juga jalankan `bash script.sh`
+```
+echo '<VirtualHost *:80>
+                ServerAdmin webmaster@localhost
+        ServerName super.franky.C11.com
+        ServerAlias www.super.franky.C11.com
+
+        DocumentRoot /var/www/super.franky.C11.com
+       <Directory /var/www/html>
+     Options +FollowSymLinks -Multiviews
+     AllowOverride All
+</Directory>
+ ErrorLog ${APACHE_LOG_DIR}/error.log
+ CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/super.franky.C11.com.conf
+```
+Kemudian buka `/etc/apache2/sites-available` dan jalankan `a2ensite super.franky.C11.com.conf` </br>
+Selanjutnya jalankan `service apache2 restart`
+
+Ke Water7 dan tambahkan
+```
+include /etc/squid/acl.conf
+include /etc/squid/acl-bandwith.conf
+http_port 5000
+visible_hostname jualbelikapal.C11.com
+
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Proxy
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive on
+acl USERS proxy_auth REQUIRED
+
+acl google dstdomain google.com
+http_access deny google
+deny_info http://super.franky.C11.com/ google
+
+#acl BLACKLIST dstdomain google.com
+#deny_info http://super.franky.c11.com/ BLACKLIST
+#http_reply_access deny BLACKLIST
+
+http_access allow USERS
+
+http_access deny all
+```
+
+Kemudian ke Loguetown dan ketik `lynx google.com` maka akan mengarahkan ke `super.franky.c11.com`
+![11](https://user-images.githubusercontent.com/57831206/141647813-a29a1d91-7be3-4847-8f1f-551c6c7dee15.JPG)
+
+### Soal 12.
+
+### Soal 13. 
